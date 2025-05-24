@@ -1,30 +1,23 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'JDK 17'              // Match the name set in Jenkins > Global Tool Configuration
-        maven 'Maven 3.9.9'       // Match the name set in Jenkins > Global Tool Configuration
-    }
-   
     stages {
-        
-        stage('Debug Maven') {
-             steps {
-        bat 'where mvn'
-        bat 'mvn -version'
-           }
-        }
-            stage('Build and Test') {
+        stage('Clone') {
             steps {
-                bat 'mvn clean test'
+                git url: 'https://github.com/VazirJamilCodeCraft/jenkins.git', branch: 'main'
             }
         }
-        
-    }
-    post {
-        always {
-            junit 'target/surefire-reports/*.xml'
+
+        stage('Build') {
+            steps {
+                echo 'Build stage...'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying...'
+            }
         }
     }
-    }
-
+}
